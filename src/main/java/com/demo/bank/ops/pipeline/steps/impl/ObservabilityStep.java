@@ -1,7 +1,8 @@
-package com.demo.bank.ops.pipeline.steps;
+package com.demo.bank.ops.pipeline.steps.impl;
 
 import com.demo.bank.ops.api.dto.OperationResult;
 import com.demo.bank.ops.pipeline.PipelineContext;
+import com.demo.bank.ops.pipeline.steps.OperationStep;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -15,11 +16,11 @@ public class ObservabilityStep implements OperationStep {
 
   @Override
   public void before(PipelineContext ctx, Map<String, Object> meta) {
-    log.info("Starting operationId={} kind={}", ctx.operationId(), ctx.kind());
+    log.info("op.start opId={} kind={} corr={}", ctx.opId(), ctx.kind(), meta.get("corr"));
   }
 
   @Override
   public void after(PipelineContext ctx, Map<String, Object> meta, OperationResult result) {
-    log.info("Finished operationId={} status={}", ctx.operationId(), result.status());
+    log.info("op.end opId={} status={}", ctx.opId(), result.status());
   }
 }
