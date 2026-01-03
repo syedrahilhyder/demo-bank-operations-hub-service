@@ -4,18 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PipelineContext {
-  private final String operationId;
+  private final String opId;
   private final String kind;
   private final Map<String, Object> bag = new HashMap<>();
 
-  public PipelineContext(String operationId, String kind) {
-    this.operationId = operationId;
+  public PipelineContext(String opId, String kind) {
+    this.opId = opId;
     this.kind = kind;
   }
 
-  public String operationId() { return operationId; }
+  public String opId() { return opId; }
   public String kind() { return kind; }
 
-  public void put(String key, Object value) { bag.put(key, value); }
-  public Object get(String key) { return bag.get(key); }
+  public void put(String k, Object v) { bag.put(k, v); }
+  public Object get(String k) { return bag.get(k); }
 }

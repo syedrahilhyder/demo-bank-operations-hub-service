@@ -2,7 +2,6 @@ package com.demo.bank.ops.api.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 public record TransferRequest(
     @NotBlank String customerId,
@@ -10,5 +9,5 @@ public record TransferRequest(
     @NotBlank String toAccount,
     @Min(1) long amountMinor,
     @NotBlank String currency,
-    @NotNull String reference
+    @NotBlank String reference
 ) {}

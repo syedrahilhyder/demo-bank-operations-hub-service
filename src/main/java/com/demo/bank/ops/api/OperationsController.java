@@ -16,12 +16,20 @@ public class OperationsController {
   }
 
   @PostMapping("/transfer")
-  public OperationResult transfer(@Valid @RequestBody TransferRequest request) {
-    return facade.executeTransfer(request);
-  }
+  public OperationResult transfer(@Valid @RequestBody TransferRequest req) { return facade.transfer(req); }
 
-  @PostMapping("/card-auth-capture")
-  public OperationResult cardAuthAndCapture(@Valid @RequestBody CardAuthAndCaptureRequest request) {
-    return facade.executeCardAuthAndCapture(request);
-  }
+  @PostMapping("/international-transfer")
+  public OperationResult intl(@Valid @RequestBody InternationalTransferRequest req) { return facade.internationalTransfer(req); }
+
+  @PostMapping("/utility-pay")
+  public OperationResult utility(@Valid @RequestBody UtilityPayRequest req) { return facade.utilityPay(req); }
+
+  @PostMapping("/card-auth")
+  public OperationResult cardAuth(@Valid @RequestBody CardAuthRequest req) { return facade.cardAuth(req); }
+
+  @PostMapping("/transfer-async")
+  public OperationResult transferAsync(@Valid @RequestBody TransferRequest req) { return facade.transferAsync(req); }
+
+  @PostMapping("/healthcheck-deps")
+  public OperationResult deps() { return facade.dependencyHealthcheck(); }
 }

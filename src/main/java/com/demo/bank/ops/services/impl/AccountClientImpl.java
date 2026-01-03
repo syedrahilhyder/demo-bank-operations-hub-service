@@ -2,9 +2,10 @@ package com.demo.bank.ops.services.impl;
 
 import com.demo.bank.ops.config.DemoServicesProperties;
 import com.demo.bank.ops.services.AccountClient;
-import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+
+import java.util.UUID;
 
 @Component
 public class AccountClientImpl implements AccountClient {
@@ -18,16 +19,26 @@ public class AccountClientImpl implements AccountClient {
   }
 
   @Override
-  @Retry(name = "account")
   public void debit(String accountId, long amountMinor) {
-    String url = props.accountBaseUrl() + "/accounts/" + accountId + "/debit?amountMinor=" + amountMinor;
-    rest.post().uri(url).body((Object) null).retrieve().toBodilessEntity();
+    rest.post().uri(props.accountBaseUrl() + "/accounts/" + accountId + "/debit?amountMinor=" + amountMinor)
+        .body((Object) null).retrieve().toBodilessEntity();
   }
 
   @Override
-  @Retry(name = "account")
   public void credit(String accountId, long amountMinor) {
-    String url = props.accountBaseUrl() + "/accounts/" + accountId + "/credit?amountMinor=" + amountMinor;
-    rest.post().uri(url).body((Object) null).retrieve().toBodilessEntity();
+    rest.post().uri(props.accountBaseUrl() + "/accounts/" + accountId + "/credit?amountMinor=" + amountMinor)
+        .body((Object) null).retrieve().toBodilessEntity();
+  }
+
+  @Override
+  public UUID hold(String accountId, long amountMinor, String reason) {
+    return rest.post().uri(props.accountBaseUrl() + "/accounts/" + accountId + "/holds?amountMinor=" + amountMinor + "&reason=" + reason)
+        .body((Object) null).retrieve().body(UUID.class);
+  }
+
+  @Override
+  public void release(UUID holdId) {
+    rest.post().uri(props.accountBaseUrl() + "/accounts/holds/" + holdId + "/release")
+        .body((Object) null).retrieve().toBodilessEntity();
   }
 }
